@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:1234@localhost:8889/build-a-blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:1234@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
@@ -77,6 +77,17 @@ def addpost():
         return redirect('/?id=' + blog_id)
 
     return render_template('newpost.html', title_error = title_error, body_error = body_error)
+
+@app.route('/signup', methods=['POST', 'GET'])
+
+@app.route('/login', methods=['POST', 'GET'])
+
+@app.route('/index', methods=['POST', 'GET'])
+
+@app.route('/logout', methods=['POST', 'GET'])
+def logout():
+    return redirect('/blog')
+
 
 if __name__ == '__main__':
     app.run()
