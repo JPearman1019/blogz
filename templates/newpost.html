@@ -2,13 +2,14 @@
 
 {% block content %}
     <form method='POST' action='/add-post'>
-        <label>Title for your new blog:</label><br>
-        <input type="text" name='blog-title' /><br>
-        <span class="error">{{title_error}}</span><br><br>
-        <label>Your new blog:</label><br>
-        <textarea type="textarea" name="blog-entry"></textarea><br>
-        <span class="error">{{body_error}}</span><br><br>
-        <input type="submit" value='Add Entry' />
+        <label>title</label>
+        <input type="text" name='blog-title' />
+        <span class="error">{{title_error}}</span>
+        <label>post</label>
+        <textarea type="textarea" name="blog-entry"></textarea>
+        <span class="error">{{body_error}}</span>
+        <div></div>
+        <input type="submit" value='Submit' />
     </form>
 
 {% endblock %}

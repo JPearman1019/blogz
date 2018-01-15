@@ -15,21 +15,29 @@ class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     blog_title = db.Column(db.String(120))
     blog_entry = db.Column(db.String(120))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, blog_title, blog_entry):
+    def __init__(self, blog_title, blog_entry, owner):
         self.blog_title = blog_title
         self.blog_entry = blog_entry
+        self.owner = owner
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(120))
+    password = db.Column(db.String(120))
+    blogs = db.relationship('Blog', backref='owner')
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
 
 
 @app.route('/', methods=['POST', 'GET'])
 def index():    
-    if request.args:
-        blog_id = int(request.args.get('id'))
-        blogs = Blog.query.filter_by(id=blog_id).all()
-        return render_template('blog.html', title='Build a Blog', blogs=blogs)
         
-    return redirect('/blog')
+    return render_template('/index.html', title='blog users!')
 
 def not_empty(userinput):
     if userinput != "":
@@ -51,14 +59,18 @@ def body_val(body_input):
 
 @app.route('/blog', methods=['POST', 'GET'])
 def blog():
+    if request.args:
+        blog_id = int(request.args.get('id'))
+        blogs = Blog.query.filter_by(id=blog_id).all()
+        return render_template('blog.html', title='Build a Blog', blogs=blogs)
 
     blogs = Blog.query.all()
-    return render_template('blog.html', title='Build a Blog', blogs=blogs)
+    return render_template('blog.html', title='blog posts!', blogs=blogs)
 
 
-@app.route('/newpost', methods=['POST', 'GET'])
+@app.route('/blog/newpost', methods=['POST', 'GET'])
 def newpost():
-    return render_template('newpost.html', title='Add a Blog Entry')
+    return render_template('newpost.html', title='new post')
 
 @app.route('/add-post', methods=['POST'])
 def addpost():
@@ -79,8 +91,12 @@ def addpost():
     return render_template('newpost.html', title_error = title_error, body_error = body_error)
 
 @app.route('/signup', methods=['POST', 'GET'])
+def signup():
+    return render_template('signup.html', title='Signup')
 
 @app.route('/login', methods=['POST', 'GET'])
+def login():
+    return render_template('login.html', title='Login')
 
 @app.route('/index', methods=['POST', 'GET'])
 
