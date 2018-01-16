@@ -4,9 +4,9 @@
     
     {% for blog in blogs %}
         <article action="/" name="blog-id" value="{{blog.id}}">
-            <h2><a href="/?id={{blog.id}}">{{blog.blog_title}}</a></h2>
+            <h2><a href="/blog?id={{blog.id}}">{{blog.blog_title}}</a></h2>
             <p>{{blog.blog_entry}}</p>
-            <hr>
+            <p class="post-author">written by <a href="/blog?user={{blog.owner.username}}">{{blog.owner.username}}</a></p>
         </article>
     {% endfor %}
 
